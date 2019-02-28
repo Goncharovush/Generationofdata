@@ -1,6 +1,6 @@
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import numpy as np
-
+from PIL import Image
 X = np.arange(0, 100, 0.1)
 Y = np.arange(0, 100, 0.1)
 
@@ -28,38 +28,17 @@ bord1[np.where(bord1 != 0.0)] = 1
 bord1[np.where(bord1 == 0.0)] = 0
 bord2[np.where(bord2 != 0.0)] = 1
 bord2[np.where(bord2 == 0.0)] = 0
-coord=[]
 for i in range(len(bord1)):
     for j in range(len(bord1[i])):
-        bord[i][j]=max(bord1[i][j],bord2[i][j])
-        if (bord[i][j]>0):
-            coord.append([i,j])
-def dist(a,b):
-    return (a[0]-b[0])*(a[0]-b[0])+(a[1]-b[1])*(a[1]-b[1])
-
-groops=[]
-"""while (len(coord)!=0):
-    step = 0
-    used = []
-    first = coord[0]
-    used.append(first)
-    round = used[0]
-    del coord[0]
-    while True:
-        if (step>1):
-            coord.append(used[0])
-            del used[0]
-        def comparator(a):
-            return dist(a, first)
-        coord.sort(key=comparator)
-        used.append(coord[0])
-        first=coord[0]
-        if (first==round):
-            groops.append(used)
-            break
-        step=step+1
-        del coord[0]
-    if len(coord)==0:
-        break"""
-plt.imshow(bord)
-plt.show()
+        bord[i][j]=max(bord1[i][j],bord2[i][j],0.5*data[i][j])
+array = np.zeros([256, 256, 3], dtype=np.uint8)
+for i in range(1000):
+    for j in range(1000):
+        if (bord[i][j] == 1.0):
+            array[i:,j:]=[0., 0., 0.]
+        elif (bord[i][j]==0.5):
+            array[i:, j:] = [bord[i][j], 255, 0]
+        else:
+            array[i:, j:] = [121, 0, bord[i][j]]
+img = Image.fromarray(array)
+img.save('image.png')
